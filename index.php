@@ -11,10 +11,10 @@
 		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 		<link href="css/styles.css" rel="stylesheet" />
 	</head>
-	<body id="page-top">
+	<body id="page-top" onload="document.tabellaVeicoli">
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 			<div class="container">
-				<a class="navbar-brand js-scroll-trigger" href="#page-top">
+				<a class="navbar-brand js-scroll-trigger" href="index.php">
 					<img src="assets/img/favicon.ico" alt="New Car Icon">
 					New Car
 					<!-- <i class="fas fa-home"></i> -->
@@ -38,6 +38,7 @@
 							<a class="nav-link js-scroll-trigger" href="#contacts">Contatti</a>
 						</li>
 					</ul>
+					<hr>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="index.php#signup">
@@ -75,34 +76,26 @@
 			<div class="container">
 				<h1 class="text-center">Showroom</h1>
 				<div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-					<form class="form-inline d-flex" method="GET">
+					<form class="form-inline" method="GET" name='tabellaVeicoli'>
 						<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtCerca" placeholder="Marca e/o modello da cercare..."/>
-						<button class="btn btn-primary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-10" name="btnCerca" type="submit">Cerca</button>
+						<button class="form-control flex-fill btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-10" name="btnCerca" type="submit" formaction="#showroom">Cerca</button>
 					</form>
-					<!--
 					<?php
-						/*
-						if (isset($_GET['btnCerca'])){include('session.php');
+						if (isset($_GET['btnCerca'])){
 							if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-								if (!isset($_GET['materia']) && !isset($_GET['materie'])){  
-									print_error("Syntax error Get 1");
-									http_response_code(401);
-									return;
-								}
-
-								// accesso al database
-								$mysql = new mysqli('localhost','root','*****','my_romeotechnologies');
-								if (!$mysql){
-									print_error("Database error: login error");
-									http_response_code(501);
-									return;
-								}
-
 								if (isset($_GET['txtCerca'])) {
 									$elemento_ricerca = $_GET['txtCerca'];
 									$query = "SELECT * FROM veicolo WHERE marca LIKE '%$elemento_ricerca%' OR modello LIKE '%$elemento_ricerca%'";
 								} else
 									$query = "SELECT * FROM veicolo";
+
+								// accesso al database
+								$mysql = new mysqli('localhost', 'root', '', 'esame');
+								if (!$mysql){
+									print_error("Database error: login error");
+									http_response_code(501);
+									return;
+								}
 
 								$result = $mysql->query($query);
 
@@ -113,10 +106,10 @@
 								}
 
 								if ($result->num_rows > 0){
-									$response = '<div class="col-md-12 col-lg-4 mx-auto text-center"><table><tr><td>N°</td><td>Marca</td><td>
-									Modello</td><td>Numero di telaio</td><td>Data immatricolazione</td><td>Cilindrata</td><td>Velocità massima
-									</td><td>Categoria</td><td>Colore</td><td>Foto</td><td>QR Code</td><td>Trattativa in corso</td><td>È nuova?
-									</td><td>È disponibile la pronta consenga?</td></tr>';
+									$response = '<div class="text-center"><table class="table-bordered table-secondary"><tr><td>N°</td><td>Marca</td><td>Modello</td>
+									<td>Numero di telaio</td><td>Data immatricolazione</td><td>Cilindrata</td><td>Velocità massima</td><td>
+									Categoria</td><td>Colore</td><td>Foto</td><td>QR Code</td><td>Trattativa in corso</td><td>È nuova?</td>
+									<td>È disponibile la pronta consenga?</td></tr>';
 
 									$counter = 0;
 
@@ -139,48 +132,83 @@
 												' .$row["dataImmatricolazione"]. '
 											</td>
 											<td>
-												' .$row["cilindrata"]. '
+												' .$row["cilindrata"]. ' cc
 											</td>
 											<td>
-												' .$row["velocitaMassima"]. '
+												' .$row["velocitaMassima"]. ' km/h
 											</td>
-											<td>
-												' .$row["idCategoria"]. '
-											</td>
-											<td>
-												' .$row["idColore"]. '
-											</td>
-											<td>
-												' .$row["foto"]. '
+											<td>';
+
+											$response .= getElementFromQuery('nomeCategoria', 'categoria', 'idCategoria', $row['idCategoria']) .'</td><td>';
+											$response .= getElementFromQuery('nome', 'colore', 'idColore', $row['idColore']) .'</td>';
+
+											$response .= '<td>
+												<img src="' .$row["foto"]. '" height="200" width="200">
 											</td>
 											<td>
 												' .$row["qrCode"]. '
+												<!-- <img src="' .$row["qrCode"]. '" height="200" width="200"> -->
 											</td>
-											<td>
-												' .$row["idTrattativa"]. '
-											</td>
-											<td>
-												' .$row["isNuova"]. '
-											</td>
-											<td>
-												' .$row["isProntaConsegna"]. '
-											</td>
-											</tr>';
+											<td>';
+
+											if ($row["idTrattativa"] == null)
+												$response .= 'Nessuna';
+											else
+												$response .= $row["idTrattativa"];
+
+											$response .= '</td><td>';
+
+											if ($row["isNuovo"] == 0)
+												$response .= 'No';
+											else
+												$response .= 'Sì';
+
+											$response .= '</td><td>';
+
+											if ($row["prontaConsegna"] == 0)
+												$response .= 'No';
+											else
+												$response .= 'Sì';
+
+											$response .= '</td></tr>';
 									}
 									
-									$response .= '</table></div>',
-
+									$response .= '</table></div>';
+									
 									echo $response;
 								} else { 
 									print_error("Database error 3");
 									http_response_code(503);
 									return;
-								}      
+								}
 							}
 						}
-						*/
+
+						function getElementFromQuery($column, $table, $condition,$element){
+							$mysql = new mysqli('localhost', 'root', '', 'esame');
+							if (!$mysql){
+								print_error("Database error: login error");
+								http_response_code(501);
+								return;
+							}
+
+							$query = 'SELECT ' .$column. ' FROM ' .$table. ' WHERE ' .$condition. ' = ' .$element;
+							$result = $mysql->query($query);
+
+							if (!$result){
+								return '';
+							}
+
+							if ($result->num_rows > 0){
+								$response = '';
+								while ($row = $result->fetch_assoc()){
+									$response .= $row[$column];
+								}
+								return $response;
+							} else
+								return '';
+						}
 					?>
-					-->
 				</div>
 			</div>
 		</section>
