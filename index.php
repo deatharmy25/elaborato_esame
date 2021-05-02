@@ -115,6 +115,7 @@
 
 									while ($row = $result->fetch_assoc()){
 										$counter++;
+										// https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=testo_da_qrcoddare
 										$response .= '<tr>
 											<td>
 												' .$counter. '
