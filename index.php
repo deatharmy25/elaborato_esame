@@ -115,7 +115,7 @@
 
 									while ($row = $result->fetch_assoc()){
 										$counter++;
-										// https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=testo_da_qrcoddare
+										// https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$row["numeroTelaio"]
 										$response .= '<tr>
 											<td>
 												' .$counter. '
@@ -144,11 +144,11 @@
 											$response .= getElementFromQuery('nome', 'colore', 'idColore', $row['idColore']) .'</td>';
 
 											$response .= '<td>
-												<img src="' .$row["foto"]. '" height="200" width="200">
+												<img src="' .$row["foto"]. '" height="300" width="300">
 											</td>
 											<td>
 												' .$row["qrCode"]. '
-												<!-- <img src="' .$row["qrCode"]. '" height="200" width="200"> -->
+												<!-- <img src="' .$row["qrCode"]. '" height="300" width="300"> -->
 											</td>
 											<td>';
 
