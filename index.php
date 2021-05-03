@@ -13,7 +13,9 @@
 	</head>
 	<body id="page-top" onload="document.tabellaVeicoli">
 		<?php
-			include('session.php')
+			//include('session.php');
+			session_start();
+			$_SESSION['loggedIn'] = false;
 		?>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 			<div class="container">
@@ -229,6 +231,7 @@
 			</div>
 			<div class="container">
 				<?php
+					// Login e Sign up form
 					if (!$logged_in){
 						echo '<div class="row">
 							<div class="col-md-6 col-lg-4 mx-auto text-center">
@@ -237,7 +240,7 @@
 								<form method="POST" class="form-inline d-flex" action="login.php">
 									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtId" placeholder="ID..."/>
 									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="password" name="txtPassword" placeholder="Password..."/>
-									<button class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
+									<button name="btnLogin" class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
 								</form>
 							</div>
 							<div class="col-md-6 col-lg-4 mx-auto text-center">
@@ -246,13 +249,15 @@
 								<button class="btn btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-3" onclick="location.href=\'signup.php\';">Sign Up</button>
 							</div>
 						</div>';
+						
 					} else {
+						// LOGOUT form
 						echo '<div class="row">
 							<div class="col-md-12 col-lg-4 mx-auto text-center">
 								<i class="fas fa-sign-out-alt fa-2x mb-2 text-white"></i>
 								<h2 class="text-white mb-5">Esci</h2>
 								<form method="POST" class="form-inline d-flex" action="logout.php">
-									<button class="btn btn-secondary mx-auto" type="submit">Logout</button>
+									<button name="btnLogout" class="btn btn-secondary mx-auto" type="submit">Logout</button>
 								</form>
 							</div>
 						</div>';

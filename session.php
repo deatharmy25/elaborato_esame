@@ -1,8 +1,8 @@
 <?php
 	include('config.php');
-	session_start();
+	//session_start();
 
-	$logged_in;
+	$logged_in = false;
 
 	if(!isset($_SESSION['login_user'])){
 		//header("Location: index.php");

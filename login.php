@@ -1,6 +1,5 @@
 <?php
 	include("config.php");
-	session_start();
 
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (isset($_POST['txtId']) && isset($_POST['txtPassowrd'])){
@@ -20,7 +19,10 @@
 		$count = mysqli_num_rows($result);
 
 		if ($count == 1){
-			login_confirmed($id, 'cliente');
+			$_SESSION['login_user'] = $id;
+			$_SESSION['user_type'] = 'clientef';
+			$_SESSION['loggedIn'] = true;
+			echo '<script>alert("Ciao")</script>';
 		} else {
 			$sql = "SELECT * FROM agente WHERE idAgente LIKE '$id' AND password LIKE '$password'";
 			$result = mysqli_query($db, $sql);
@@ -32,21 +34,16 @@
 			$count = mysqli_num_rows($result);
 
 			if ($count == 1){
-				login_confirmed($id, 'agente');
+				$_SESSION['login_user'] = $id;
+				$_SESSION['user_type'] = 'agente';
+				$_SESSION['loggedIn'] = true;
+				echo '<script>alert("Ciao")</script>';
 			} else {
-				login_error();
+				echo '<script>alert("Errore, ID o password errati")</script>';
+				$_SESSION['loggedIn'] = false;
 			}
 		}
-	}
-
-	function login_confirmed($id, $type){
-		$_SESSION['login_user'] = $id;
-		$_SESSION['user_type'] = $type;
-
 		header("Location: index.php");
-	}
-
-	function login_error(){
-		echo '<script>alert("Errore, ID o password errati")</script>';
+		//echo '<script>window.location.replace("index.php")</script>';
 	}
 ?>
