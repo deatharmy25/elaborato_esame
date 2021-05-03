@@ -1,7 +1,7 @@
 <?php
 	//include('session.php');
 	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-		if (!isset($_GET['veicolo']) || !isset($_GET['txtCerca'])){
+		if (!isset($_GET['veicolo']) && !isset($_GET['txtCerca'])){
 			print_error("Syntax error Get 1");
 			http_response_code(401);
 			return;
@@ -47,7 +47,14 @@
 			$response = '{"status": "ok", "veicoli": [';
 
 			while($row = $result->fetch_assoc()){
-				$response .= '{marca: "' .$row['marca']. '",modello: "' .$row['modello']. '",isNuovo: ' .$row['isNuovo']. ',prontaConsegna: ' .$row['prontaConsegna']. ',chilometri: ' .$row['chilometri']. ',foto: "' .$row['foto']. '",cilindrata: ' .$row['cilindrata']. ',idColore: ' .$row['idColore']. ',dataImmatricolazione: "' .$row['dataImmatricolazione']. '",velocitaMassima: ' .$row['velocitaMassima']. ',idCategoria: ' .$row['idCategoria']. ',idTrattativa: ' .$row['idTrattativa']. ',qrCode: "' .$row['qrCode']. '"},';
+				$response .= '{marca: "' .$row['marca']. '",modello: "' .$row['modello']. '",isNuovo: ' .$row['isNuovo']. ',prontaConsegna: ' .$row['prontaConsegna']. ',chilometri: ' .$row['chilometri']. ',foto: "' .$row['foto']. '",cilindrata: ' .$row['cilindrata']. ',idColore: ' .$row['idColore']. ',dataImmatricolazione: "' .$row['dataImmatricolazione']. '",velocitaMassima: ' .$row['velocitaMassima']. ',idCategoria: ' .$row['idCategoria']. ',idTrattativa: ';
+					
+				if ($row['idTrattativa'] == null)
+					$response .= '"null"';
+				else
+					$response .= $row['idTrattativa'];
+
+				$response .= ',qrCode: "' .$row['qrCode']. '"},';
 				/*
 					// Stessa cosa che c'è scritta sopra ma in formato leggibile
 					$response = '{
@@ -62,9 +69,14 @@
 						dataImmatricolazione: "' .$row['dataImmatricolazione']. '",
 						velocitaMassima: ' .$row['velocitaMassima']. ',
 						idCategoria: ' .$row['idCategoria']. ',
-						idTrattativa: ' .$row['idTrattativa']. ',
-						qrCode: "' .$row['qrCode']. '"
-					}';
+						idTrattativa: ';
+						
+						if (idTrattativa == null)
+							$response .= '"null"';
+						else
+							$response .= $row['idTrattativa'];
+						$response .= ',qrCode: "' .$row['qrCode']. '"
+					},';
 				*/
 			}
 

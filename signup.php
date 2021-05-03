@@ -50,83 +50,26 @@
                 </div>
 
                 <div class="account-details">
-                    <input type="text" name="txtNome" placeholder="Nome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
-                    <input type="text" name="txtCognome" placeholder="Cognome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/><br>
-                    <input type="password" name="txtPassword" placeholder="Password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
-                    <input type="password" name="txtPasswordRepeat" placeholder="Ripeti password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/><br>
+                    <div>
+                        <input type="text" name="txtNome" placeholder="Nome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <input type="text" name="txtCognome" placeholder="Cognome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                    </div>
+                    <div>
+                        <input type="password" name="txtPassword" placeholder="Password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <input type="password" name="txtPasswordRepeat" placeholder="Ripeti password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                    </div>
                 </div>
                 <fieldset>
                     <div class="personal-details">
                         <div>
                             <input type="text" name="txtStato" placeholder="Stato..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required>
                             <input type="text" name="txtCitta" placeholder="Città..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required>
-                            <input type="text" name="txtResidenza" placeholder="Indirizzo..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required>
+                            <input type="text" name="txtIndirizzo" placeholder="Indirizzo..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required>
                         </div>
                         <div>
-                            <div>
-                                <label>Gender*</label>
-                                <div class="gender">
-                                    <input type="radio" value="m" id="male" name="gender" required/>
-                                    <label for="male" class="radio">Maschio</label>
-                                    <input type="radio" value="f" id="female" name="gender" required/>
-                                    <label for="female" class="radio">Femmina</label>
-                                    <input type="radio" value="o" id="other" name="gender" required/>
-                                    <label for="other" class="radio">Altro</label>
-                                </div>
-                            </div>
-                            <div class="birthdate">
-                                <label>Data di nascita*</label>
-                                <div class="bdate-block">
-                                    <select name="giorno" required>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="04">04</option>
-                                        <option value="05">05</option>
-                                        <option value="06">06</option>
-                                        <option value="07">07</option>
-                                        <option value="08">08</option>
-                                        <option value="09">09</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="23">23</option>
-                                        <option value="24">24</option>
-                                        <option value="25">25</option>
-                                        <option value="26">26</option>
-                                        <option value="27">27</option>
-                                        <option value="28">28</option>
-                                        <option value="29">29</option>
-                                        <option value="30">30</option>
-                                        <option value="31">31</option>
-                                    </select>
-                                    <select name="mese" required>
-                                        <option value="Gennaio">Gennaio</option>
-                                        <option value="Febbraio">Febbraio</option>
-                                        <option value="Marzo">Marzo</option>
-                                        <option value="Aprile">Aprile</option>
-                                        <option value="Maggio">Maggio</option>
-                                        <option value="Giugno">Giugno</option>
-                                        <option value="Luglio">Luglio</option>
-                                        <option value="Agosto">Agosto</option>
-                                        <option value="Settembre">Settembre</option>
-                                        <option value="Ottobre">Ottobre</option>
-                                        <option value="Novembre">Novembre</option>
-                                        <option value="Dicembre">Dicembre</option>
-                                    </select>
-                                    <input type="number" name="txtAnno" placeholder="Anno..." value="2021" class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required>
-                                </div>
-                            </div>
+                            <input type="text" name="txtCodiceFiscale" placeholder="Codice fiscale..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" maxlength="16" required>
+                        </div>
+                        <div>
                             <div>
                                 <label for="chkSposato">Sposato</label>
                                 <input type="checkbox" name="chkSposato"><br>
@@ -139,54 +82,70 @@
                     </div>
                 </fieldset>
                 <button type="button" onclick="location.href='index.php#signup';" class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3">Annulla</button>
-                <button type="button" name="btnSubmit" class="btn btn-primary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3">Sign up</button>
+                <button type="submit" name="btnSubmit" class="btn btn-primary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3">Sign up</button>
             </form>
             <?php
-                if (isset($_POST['txtSubmit'])){
-                    $nome = $_POST[''];
-                    $cognome = $_POST[''];
-                    $password = $_POST[''];
-                    $passwordRepeat = $_POST[''];
-                    $stato = $_POST[''];
-                    $citta = $_POST[''];
-                    $indirizzo = $_POST[''];
-                    $sesso = $_POST[''];
-                    $giorno = $_POST[''];
-                    $mese = $_POST[''];
-                    $anno = $_POST[''];
+                if (isset($_POST['btnSubmit'])){
+                    if ($_POST['txtPassword'] != $_POST['txtPasswordRepeat']){
+                        echo '<script>alert("Attenzione, password non corrispondenti")</script>';
+                        return;
+                    }
 
+                    $nome = $_POST['txtNome'];
+                    $cognome = $_POST['txtCognome'];
+                    $password = $_POST['txtPassword'];
+                    $stato = $_POST['txtStato'];
+                    $citta = $_POST['txtCitta'];
+                    $indirizzo = $_POST['txtIndirizzo'];
+                    $codiceFiscale = strtoupper($_POST['txtCodiceFiscale']);
+
+                    if (strlen($codiceFiscale) != 16){
+                        echo '<script>alert("Attenzione, il codice fiscale è incorretto")</script>';
+                        return;   
+                    }
+                    
+                    $indirizzoResidenza = $indirizzo .' - ' .$citta. '(' .$stato. ')';
+
+                    $componentiFamiglia = '';
                     if (isset($_POST['chkSposato']))
-                        $sposato = true;
-                    else
-                        $sposato = false;
+                        $componentiFamiglia .= 'Sposato';
+                    if (isset($_POST['chkFigli']))
+                        $componentiFamiglia .= ' con figli.';
 
-                    if (isset($_POST['chkSposato']))
-                        $figli = true;
+                    if (isset($_POST['chkNewsLetter']))
+                        $newsLetter = 1;
                     else
-                        $figli = FALSE;
+                        $newsLetter = 0;
 
-                    if (isset($_POST['chkSposato']))
-                        $newsLetter = true;
-                    else
-                        $newsLetter = true;
-
-                    //accesso al database
-                    $mysql = new mysqli('localhost','romeotechnologies','6K4nHTNFsb8p','my_romeotechnologies');
+                    $mysql = new mysqli('localhost', 'root', '', 'esame');
                     if (!$mysql){  
                         print_error("Database error");
                         http_response_code(501);
                         return;
                     }
 
-                    //query di inserimento
-                    $query = "INSERT INTO voto (voto, valore, descrizione, codiceMateria, userId) VALUES ($voto,$valore,'$descrizione',$codiceMateria,$login_session_id)";
+                    $query = "INSERT INTO cliente (nome, cognome, codiceFiscale, indirizzoResidenza, componentiFamiglia, newsLetter, password)
+                    VALUES ('$nome', '$cognome', '$codiceFiscale', '$indirizzoResidenza', '$componentiFamiglia', $newsLetter, '$password')";
                     $result = $mysql->query($query);
-                    if ($result)
-                        //print_confirm()
-                        http_response_code(200);
-                    else{  
-                        print_error("Errore nella query");
+
+                    if ($result){
+                        echo '<script>alert("Registrazione completata\nUsa ' .getIdByCodiceFiscale($codiceFiscale). ' come ID per accedere ai nostri servizi")</script>';
+                        echo '<script>window.location.replace("index.php#signup")</script>';
+                    } else {
+                        //echo $query;
+                        echo '<script>alert("Errore utente già registrato")</script>';
                         http_response_code(502);
+                    }
+                }
+
+                function getIdByCodiceFiscale($codiceFiscale){
+                    $mysql = new mysqli('localhost', 'root', '', 'esame');
+                    $query = "SELECT idCliente FROM cliente WHERE codiceFiscale LIKE '$codiceFiscale'";
+                    $result = $mysql->query($query);
+
+                    if ($result->num_rows == 1){
+                        if ($row = $result->fetch_assoc())
+                            return $row['idCliente'];
                     }
                 }
             ?>

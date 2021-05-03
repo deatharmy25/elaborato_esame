@@ -12,6 +12,9 @@
 		<link href="css/styles.css" rel="stylesheet" />
 	</head>
 	<body id="page-top" onload="document.tabellaVeicoli">
+		<?php
+			include('session.php')
+		?>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 			<div class="container">
 				<a class="navbar-brand js-scroll-trigger" href="index.php">
@@ -41,10 +44,17 @@
 					<hr>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="index.php#signup">
-	                            Login
-	                            <i class="fas fa-sign-in-alt"></i>
-	                        </a>
+							<a class="nav-link js-scroll-trigger" href="index.php#signup">
+								<?php
+									if (!$logged_in){
+										echo 'Login
+										<i class="fas fa-sign-in-alt"></i>';
+									} else {
+										echo 'Logout
+										<i class="fas fa-sign-out-alt"></i>';
+									}
+								?>
+							</a>
                         </li>
                     </ul>
 				</div>
@@ -77,7 +87,8 @@
 				<h1 class="text-center">Showroom</h1>
 				<div class="row justify-content-center no-gutters mb-5 mb-lg-0">
 					<form class="form-inline" method="GET" name='tabellaVeicoli'>
-						<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtCerca" placeholder="Marca e/o modello da cercare..."/>
+						<label for="txtCerca" class="mr-0 mr-sm-2 mb-3 mb-sm-3">Marca e/o modello da cercare...</label>
+						<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtCerca" placeholder="Esempio: Fiat Panda"/>
 						<button class="form-control flex-fill btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-10" name="btnCerca" type="submit" formaction="#showroom">Cerca</button>
 					</form>
 					<?php
@@ -89,7 +100,6 @@
 								} else
 									$query = "SELECT * FROM veicolo";
 
-								// accesso al database
 								$mysql = new mysqli('localhost', 'root', '', 'esame');
 								if (!$mysql){
 									print_error("Database error: login error");
@@ -147,8 +157,8 @@
 												<img src="' .$row["foto"]. '" height="300" width="300">
 											</td>
 											<td>
-												' .$row["qrCode"]. '
-												<!-- <img src="' .$row["qrCode"]. '" height="300" width="300"> -->
+												<!-- ' .$row["qrCode"]. ' -->
+												<img src="' .$row["qrCode"]. '" height="300" width="300">
 											</td>
 											<td>';
 
@@ -218,22 +228,36 @@
 				<h1 class="text-center text-white mb-4">Sezione utente</h1>
 			</div>
 			<div class="container">
-				<div class="row">
-					<div class="col-md-6 col-lg-4 mx-auto text-center">
-						<i class="fas fa-sign-in-alt fa-2x mb-2 text-white"></i>
-						<h2 class="text-white mb-5">Accedi</h2>
-						<form class="form-inline d-flex">
-							<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtId" placeholder="ID..."/>
-							<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="password" name="txtPassword" placeholder="Password..."/>
-							<button class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
-						</form>
-					</div>
-					<div class="col-md-6 col-lg-4 mx-auto text-center">
-						<i class="fas fa-user-plus fa-2x mb-2 text-white"></i>
-						<h2 class="text-white mb-5">Registrati</h2>
-						<button class="btn btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-3" onclick="location.href='signup.php';">Sign Up</button>
-					</div>
-				</div>
+				<?php
+					if (!$logged_in){
+						echo '<div class="row">
+							<div class="col-md-6 col-lg-4 mx-auto text-center">
+								<i class="fas fa-sign-in-alt fa-2x mb-2 text-white"></i>
+								<h2 class="text-white mb-5">Accedi</h2>
+								<form method="POST" class="form-inline d-flex" action="login.php">
+									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtId" placeholder="ID..."/>
+									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="password" name="txtPassword" placeholder="Password..."/>
+									<button class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
+								</form>
+							</div>
+							<div class="col-md-6 col-lg-4 mx-auto text-center">
+								<i class="fas fa-user-plus fa-2x mb-2 text-white"></i>
+								<h2 class="text-white mb-5">Registrati</h2>
+								<button class="btn btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-3" onclick="location.href=\'signup.php\';">Sign Up</button>
+							</div>
+						</div>';
+					} else {
+						echo '<div class="row">
+							<div class="col-md-12 col-lg-4 mx-auto text-center">
+								<i class="fas fa-sign-out-alt fa-2x mb-2 text-white"></i>
+								<h2 class="text-white mb-5">Esci</h2>
+								<form method="POST" class="form-inline d-flex" action="logout.php">
+									<button class="btn btn-secondary mx-auto" type="submit">Logout</button>
+								</form>
+							</div>
+						</div>';
+					}
+				?>
 			</div>
 		</section>
 		<section class="contact-section bg-black" id="contacts">

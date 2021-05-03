@@ -2,15 +2,28 @@
 	include('config.php');
 	session_start();
 
-	$user_check = $_SESSION['login_user'];
-	$ses_sql = mysqli_query($db, "SELECT username, id FROM utente WHERE username LIKE '$user_check'");
-	$row = mysqli_fetch_array($ses_sql, MYSQLI_ASSOC);
-
-	$login_session = $row['username'];
-	$login_session_id = $row['id'];
+	$logged_in;
 
 	if(!isset($_SESSION['login_user'])){
-		header("location:login.php");
-		die();
+		//header("Location: index.php");
+		$logged_in = false;
+		return;
+		//die();
+	} else {
+		$logged_in = true;
+		$user_check = $_SESSION['login_user'];
+		$user_type = $_SESSION['user_type'];
+
+		if ($user_type == 'agente'){
+			$ses_sql = mysqli_query($db, "SELECT idAgente FROM agente WHERE idAgente LIKE '$user_check'");
+
+			$row = mysqli_fetch_array($ses_sql, MYSQLI_ASSOC);
+			$login_session = $row['idAgente'];
+		} elseif ($user_type == 'cliente'){
+			$ses_sql = mysqli_query($db, "SELECT idCliente FROM cliente WHERE idClietne LIKE '$user_check'");
+			
+			$row = mysqli_fetch_array($ses_sql, MYSQLI_ASSOC);
+			$login_session = $row['idCidAgenteliente'];
+		}
 	}
 ?>

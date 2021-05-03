@@ -3,31 +3,50 @@
 	session_start();
 
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
-		if (isset($_POST['username']) && isset($_POST['password'])){
-			$username = mysqli_real_escape_string($db, $_POST['username']);
-			$password = mysqli_real_escape_string($db, $_POST['password']);
+		if (isset($_POST['txtId']) && isset($_POST['txtPassowrd'])){
+			$id = mysqli_real_escape_string($db, $_POST['txtId']);
+			$password = mysqli_real_escape_string($db, $_POST['txtPassword']);
 		} else {
 			return;
 		}
 
-		$sql = "SELECT * FROM cliente, agente WHERE cliente.idCliente LIKE '$username' AND cilente.password LIKE '$password' OR agente.idAgente LIKE '$username' AND agente.password LIKE '$password'";
+		$sql = "SELECT * FROM cliente WHERE idCliente LIKE '$id' AND password LIKE '$password'";
 		$result = mysqli_query($db, $sql);
-
-		//$id_user = $result->fetch_assoc();
 
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$active = $row['active'];
-		$id_user = $row['id'];
+		$id_user = $row['idCliente'];
 
 		$count = mysqli_num_rows($result);
 
-		if($count == 1) {
-			//session_register("username"); // Non so a cosa servisse ma senza funziona
-			$_SESSION['login_user'] = $username;
-
-			header("location: ../index.html");
+		if ($count == 1){
+			login_confirmed($id, 'cliente');
 		} else {
-			echo '<p class=".error">Account non trovato. <a href="signup.html">Registrati</a></p>';
+			$sql = "SELECT * FROM agente WHERE idAgente LIKE '$id' AND password LIKE '$password'";
+			$result = mysqli_query($db, $sql);
+			
+			$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+			$active = $row['active'];
+			$id_user = $row['idAgente'];
+
+			$count = mysqli_num_rows($result);
+
+			if ($count == 1){
+				login_confirmed($id, 'agente');
+			} else {
+				login_error();
+			}
 		}
+	}
+
+	function login_confirmed($id, $type){
+		$_SESSION['login_user'] = $id;
+		$_SESSION['user_type'] = $type;
+
+		header("Location: index.php");
+	}
+
+	function login_error(){
+		echo '<script>alert("Errore, ID o password errati")</script>';
 	}
 ?>
