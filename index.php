@@ -1,28 +1,34 @@
+<?php
+	include('config.php');
+
+	session_start();
+	/*
+	if (!isset($_SESSION)){
+		session_start();
+		$_SESSION["loggedIn"] = false;
+	}
+	*/
+?>
+
 <html lang="it">
 	<head>
 		<meta charset="utf-8" />
 		<title>New Car</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta name="description" content="" />
-		<meta name="author" content="" />
-		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Elaborato d'esame di maturità 2021">
+		<meta name="author" content="Armando Romeo">
+		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-		<link href="css/styles.css" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
 	</head>
 	<body id="page-top" onload="document.tabellaVeicoli">
-		<?php
-			//include('session.php');
-			session_start();
-			$_SESSION['loggedIn'] = false;
-		?>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 			<div class="container">
 				<a class="navbar-brand js-scroll-trigger" href="index.php">
 					<img src="assets/img/favicon.ico" alt="New Car Icon">
 					New Car
-					<!-- <i class="fas fa-home"></i> -->
 				</a>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 					Menu
@@ -46,9 +52,9 @@
 					<hr>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-							<a class="nav-link js-scroll-trigger" href="index.php#signup">
+							<a class="nav-link js-scroll-trigger" href="#signup">
 								<?php
-									if (!$logged_in){
+									if (!$_SESSION["loggedIn"]){
 										echo 'Login
 										<i class="fas fa-sign-in-alt"></i>';
 									} else {
@@ -66,7 +72,8 @@
 			<div class="container d-flex h-100 align-items-center">
 				<div class="mx-auto text-center">
 					<h1 class="mx-auto my-0 text-uppercase">New Car</h1>
-					<h2 class="text-white-50 mx-auto mt-2 mb-5">		Concessionaria FCI<br>Elaborato d'esame, maturità 2021
+					<h2 class="text-white-50 mx-auto mt-2 mb-5">
+						Concessionaria FCI<br>Elaborato d'Esame, maturità 2021
 					</h2>
 					<a class="btn btn-primary js-scroll-trigger" href="#about">Scopri di più</a>
 				</div>
@@ -78,151 +85,198 @@
 					<div class="col-lg-8 mx-auto">
 						<h1 class="text-white mb-4">Informazioni</h1>
 						<p class="text-white-50">
-							New Car è une delle sedi concessionarie del gruppo FCI! Qui puoi trovare un ampia scelta di veicoli sia nuovi che usati.
+							La “<b><i>NewCar</i></b>” è una piccola società all'interno della nostra regione (<a href="https://it.wikipedia.org/wiki/Valle_d%27Aosta" target="_blank">Valle d'Aosta</a>) operante nel settore del commercio di automobili del gruppo automobilistico <b>FCI</b>.
+							<br>
+							Offriamo servizi online per la consultazione e la vendita di veicoli nuovi in pronta consegna e usato tramite il nostro Showroom virtuale!
+
 						</p>
 					</div>
 				</div>
 			</div>
 		</section>
 		<section class="projects-section bg-light" id="showroom">
-			<div class="container">
+			<div class="container col-6">
 				<h1 class="text-center">Showroom</h1>
-				<div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-					<form class="form-inline" method="GET" name='tabellaVeicoli'>
-						<label for="txtCerca" class="mr-0 mr-sm-2 mb-3 mb-sm-3">Marca e/o modello da cercare...</label>
-						<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtCerca" placeholder="Esempio: Fiat Panda"/>
-						<button class="form-control flex-fill btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-10" name="btnCerca" type="submit" formaction="#showroom">Cerca</button>
+				<div class="justify-content-center no-gutters mb-5 mb-lg-0">
+					<form method="GET" name='tabellaVeicoli'>
+						<div class="row form-inline">
+							<label for="txtCerca" class="mr-0 mr-sm-2 mb-3 mb-sm-3">Veicolo da cercare:</label>
+							<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtCerca" placeholder="Esempio: Maserati Levante"/>
+						</div>
+						<div class="row">
+							<div class="col-xl-6">
+								<div class="container">
+									<label class="mr-0 mr-sm-2 mb-3 mb-sm-3">Filtri di ricerca</label>
+								</div>
+								<div class="container">
+									<div class="container">
+										<input class="mr-0 mr-sm-2 mb-3 mb-sm-3" type="radio" name="chkStato" value="nuovo"/>
+										<label for="chkNuovo" class="mr-0 mr-sm-2 mb-3 mb-sm-3">Nuovo</label>
+									</div>
+									<div class="container">
+										<input class="mr-0 mr-sm-2 mb-3 mb-sm-3" type="radio" name="chkStato" value="usato"/>
+										<label for="chkNuovo" class="mr-0 mr-sm-2 mb-3 mb-sm-3">Usato</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<button class="form-control flex-fill btn-primary mx-auto" name="btnCerca" type="submit" formaction="#showroom">
+								Cerca
+							</button>
+						</div>
 					</form>
-					<?php
-						if (isset($_GET['btnCerca'])){
-							if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-								if (isset($_GET['txtCerca'])) {
+				</div>
+			</div>
+			<div class="container col-4 align-content-center">
+				<?php
+					if (isset($_GET['btnCerca'])){
+						if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+							if (isset($_GET['chkStato'])) {
+								if ($_GET['chkStato'] == 'nuovo'){
+									$value = 1;
+								} elseif ($_GET['chkStato'] == 'usato') {
+									$value = 0;
+								}
+
+								if (isset($_GET['txtCerca']) && strlen($_GET['txtCerca']) > 0){
 									$elemento_ricerca = $_GET['txtCerca'];
-									$query = "SELECT * FROM veicolo WHERE marca LIKE '%$elemento_ricerca%' OR modello LIKE '%$elemento_ricerca%'";
-								} else
-									$query = "SELECT * FROM veicolo";
-
-								$mysql = new mysqli('localhost', 'root', '', 'esame');
-								if (!$mysql){
-									print_error("Database error: login error");
-									http_response_code(501);
-									return;
+									$query = "SELECT * FROM veicolo WHERE isNuovo = $value AND marca LIKE '%$elemento_ricerca%' OR modello LIKE '%$elemento_ricerca%' AND isNuovo = $value";
+								} else {
+									$query = "SELECT * FROM veicolo WHERE isNuovo = $value";
 								}
+							} else {
+								$query = 'SELECT * FROM veicolo';
 
-								$result = $mysql->query($query);
-
-								if (!$result){
-									print_error("Database error 2");
-									http_response_code(502);
-									return;
-								}
-
-								if ($result->num_rows > 0){
-									$response = '<div class="text-center"><table class="table-bordered table-secondary"><tr><td>N°</td><td>Marca</td><td>Modello</td>
-									<td>Numero di telaio</td><td>Data immatricolazione</td><td>Cilindrata</td><td>Velocità massima</td><td>
-									Categoria</td><td>Colore</td><td>Foto</td><td>QR Code</td><td>Trattativa in corso</td><td>È nuova?</td>
-									<td>È disponibile la pronta consenga?</td></tr>';
-
-									$counter = 0;
-
-									while ($row = $result->fetch_assoc()){
-										$counter++;
-										// https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$row["numeroTelaio"]
-										$response .= '<tr>
-											<td>
-												' .$counter. '
-											</td>
-											<td>
-												' .$row["marca"]. '
-											</td>
-											<td>
-												' .$row["modello"]. '
-											</td>
-											<td>
-												' .$row["numeroTelaio"]. '
-											</td>
-											<td>
-												' .$row["dataImmatricolazione"]. '
-											</td>
-											<td>
-												' .$row["cilindrata"]. ' cc
-											</td>
-											<td>
-												' .$row["velocitaMassima"]. ' km/h
-											</td>
-											<td>';
-
-											$response .= getElementFromQuery('nomeCategoria', 'categoria', 'idCategoria', $row['idCategoria']) .'</td><td>';
-											$response .= getElementFromQuery('nome', 'colore', 'idColore', $row['idColore']) .'</td>';
-
-											$response .= '<td>
-												<img src="' .$row["foto"]. '" height="300" width="300">
-											</td>
-											<td>
-												<!-- ' .$row["qrCode"]. ' -->
-												<img src="' .$row["qrCode"]. '" height="300" width="300">
-											</td>
-											<td>';
-
-											if ($row["idTrattativa"] == null)
-												$response .= 'Nessuna';
-											else
-												$response .= $row["idTrattativa"];
-
-											$response .= '</td><td>';
-
-											if ($row["isNuovo"] == 0)
-												$response .= 'No';
-											else
-												$response .= 'Sì';
-
-											$response .= '</td><td>';
-
-											if ($row["prontaConsegna"] == 0)
-												$response .= 'No';
-											else
-												$response .= 'Sì';
-
-											$response .= '</td></tr>';
-									}
-									
-									$response .= '</table></div>';
-									
-									echo $response;
-								} else { 
-									print_error("Database error 3");
-									http_response_code(503);
-									return;
+								if (isset($_GET['txtCerca']) && strlen($_GET['txtCerca']) > 0){
+									$elemento_ricerca = $_GET['txtCerca'];
+									$query .= " WHERE marca LIKE '%$elemento_ricerca%' OR modello LIKE '%$elemento_ricerca%'";
 								}
 							}
-						}
 
-						function getElementFromQuery($column, $table, $condition,$element){
-							$mysql = new mysqli('localhost', 'root', '', 'esame');
-							if (!$mysql){
-								print_error("Database error: login error");
-								http_response_code(501);
-								return;
-							}
-
-							$query = 'SELECT ' .$column. ' FROM ' .$table. ' WHERE ' .$condition. ' = ' .$element;
+							//echo $query;
 							$result = $mysql->query($query);
 
-							if (!$result){
-								return '';
-							}
+							if ($result && $result->num_rows > 0){
+								$errore = false;
+								$response = '<div class="text-center"><table class="table-bordered table-secondary table-responsive"><tr><th>N°</th><th>Foto</th><th>Informazioni</th>';
 
-							if ($result->num_rows > 0){
-								$response = '';
+								if ($_SESSION['user_type'])
+									$response .= '<th>Altro</th>';
+
+								$responde .= '</tr>';
+								$counter = 0;
+
 								while ($row = $result->fetch_assoc()){
-									$response .= $row[$column];
+									$counter++;
+									$response .= '<tr>
+										<td>
+											' .$counter. '
+										</td>
+										<td>
+											<img src="' .$row["foto"]. '" style="width:100%;max-width:300px">
+										</td>
+										<td>
+											<ul>
+												<li>
+													' .$row["marca"]. ' ' .$row["modello"]. '
+												</li>
+												<li>
+													Codice di telaio: ' .$row["numeroTelaio"]. '
+												</li>
+												<li>
+													Data immatricolazione: ' .$row["dataImmatricolazione"]. '
+												</li>
+												<li>
+													Colore: ' .getElementFromQuery('nome', 'colore', 'idColore', $row['idColore']).'
+												</li>
+												<li>
+													Categoria: ' .getElementFromQuery('nomeCategoria', 'categoria', 'idCategoria', $row['idCategoria']).'
+												</li>
+												<li>
+													Cilindrata:' .$row["cilindrata"]. ' cc
+												</li>
+												<li>
+													Velocità massima: ' .$row["velocitaMassima"]. ' km/h
+												</li>
+												<li>
+													Chilometri totali: ' .$row['chilometri']. ' km
+												</li>
+												<li>
+													&Egrave in trattativa? ';
+
+												if ($row["idTrattativa"] == null)
+													$response .= 'Nessuna';
+												else
+													$response .= $row["idTrattativa"];
+
+												$response .= '</li>
+												<li>
+													&Egrave nuova? ';
+
+												if ($row["isNuovo"] == 0)
+													$response .= 'No';
+												else
+													$response .= 'Sì';
+
+												$response .= '</li><li>
+													&Egrave disponibile la pronta consegna? ';
+
+												if ($row["prontaConsegna"] == 0)
+													$response .= 'No';
+												else
+													$response .= 'Sì';
+
+												$response .= '</li>
+												<img src="' .$row["qrCode"]. '" style="width:100%;max-width:150px">
+											</ul>
+										</td>';
+
+										if ($_SESSION['user_type'] == 'cliente')
+											$response .= '<td><a href="prenota.php?veicolo=' .$row["numeroTelaio"]. '">Prova su strada</a>';
+										elseif ($_SESSION['user_type'] == 'agente')
+											$response .= '<td><a href="modifica.php?veicolo=' .$row["numeroTelaio"]. '">Modifica</a>';
+
+										$response .= '</tr>';
 								}
-								return $response;
-							} else
-								return '';
+								$response .= '</table></div>';
+								
+								echo $response;
+							} else {
+								$errore = true;
+							}
 						}
-					?>
-				</div>
+					}
+
+					if (!$errore && isset($_GET['btnCerca'])){
+						if ($_SESSION['user_type'])
+							echo '<div class="text-center">Sessione ' .$_SESSION['user_type']. '</div>';
+						else
+							echo '<div class="text-center">Sessione ospite</div>';
+					} elseif (isset($_GET['btnCerca'])){
+						echo '<div class="text-center"><h2 class="mb-4">Non è stato trovato nessun veicolo "' .$elemento_ricerca. '"</h2></div>';
+					}
+
+					function getElementFromQuery($column, $table, $condition, $element){
+						include('config.php');
+
+						$query = 'SELECT ' .$column. ' FROM ' .$table. ' WHERE ' .$condition. ' = ' .$element;
+						$result = $mysql->query($query);
+
+						if (!$result){
+							return '';
+						}
+
+						if ($result->num_rows > 0){
+							$response = '';
+							while ($row = $result->fetch_assoc()){
+								$response .= $row[$column];
+							}
+							return $response;
+						} else
+							return '';
+					}
+				?>
 			</div>
 		</section>
 		<section class="signup-section" id="signup">
@@ -232,35 +286,92 @@
 			<div class="container">
 				<?php
 					// Login e Sign up form
-					if (!$logged_in){
-						echo '<div class="row">
-							<div class="col-md-6 col-lg-4 mx-auto text-center">
-								<i class="fas fa-sign-in-alt fa-2x mb-2 text-white"></i>
-								<h2 class="text-white mb-5">Accedi</h2>
-								<form method="POST" class="form-inline d-flex" action="login.php">
-									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="text" name="txtId" placeholder="ID..."/>
-									<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" type="password" name="txtPassword" placeholder="Password..."/>
-									<button name="btnLogin" class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
-								</form>
-							</div>
-							<div class="col-md-6 col-lg-4 mx-auto text-center">
-								<i class="fas fa-user-plus fa-2x mb-2 text-white"></i>
-								<h2 class="text-white mb-5">Registrati</h2>
-								<button class="btn btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-3" onclick="location.href=\'signup.php\';">Sign Up</button>
-							</div>
-						</div>';
-						
+					if (!$_SESSION["loggedIn"]){
+				?>
+				<div class="row">
+					<div class="col-md-6 col-lg-4 mx-auto text-center">
+						<i class="fas fa-sign-in-alt fa-2x mb-2 text-white"></i>
+						<h2 class="text-white mb-5">Accedi</h2>
+						<form method="POST" class="form-inline d-flex">
+							<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3 text-capitalize" type="email" name="txtId" placeholder="Email..." required/>
+							<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3 text-capitalize" type="password" name="txtPassword" id="txtPassword" placeholder="Password..." required/>
+							<a onclick="showPassword()">
+								<!--<i class="fas fa-key fa-2x mb-2 text-secondary" title="Mostra/Nascondi password"></i>-->
+								<i class="fas fa-low-vision flex-fill fa-2x mb-2 text-secondary" title="Mostra/Nascondi password"></i>
+							</a>
+							<button name="btnLogin" class="btn btn-secondary mx-auto mr-0 mr-sm-2 mb-3 mb-sm-3" type="submit">Login</button>
+						</form>
+						<script type="text/javascript">
+							function showPassword() {
+								var x = document.getElementById("txtPassword");
+								if (x.type === "password") {
+									x.type = "text";
+								} else {
+									x.type = "password";
+								}
+							}
+						</script>
+					</div>
+					<div class="col-md-6 col-lg-4 mx-auto text-center">
+						<i class="fas fa-user-plus fa-2x mb-2 text-white"></i>
+						<h2 class="text-white mb-5">Registrati</h2>
+						<button class="btn btn-primary mx-auto mr-0 mr-sm-0 mb-3 mb-sm-3" onclick="location.href='signup.php';">Sign Up</button>
+					</div>
+				</div>
+				<?php
 					} else {
-						// LOGOUT form
-						echo '<div class="row">
-							<div class="col-md-12 col-lg-4 mx-auto text-center">
-								<i class="fas fa-sign-out-alt fa-2x mb-2 text-white"></i>
-								<h2 class="text-white mb-5">Esci</h2>
-								<form method="POST" class="form-inline d-flex" action="logout.php">
-									<button name="btnLogout" class="btn btn-secondary mx-auto" type="submit">Logout</button>
-								</form>
-							</div>
-						</div>';
+				?>
+				<div class="row">
+					<?php
+						if ($_SESSION['user_type'] == 'agente'){
+					?>
+					<div class="col-md-12 col-lg-4 mx-auto text-center">
+						<a href="modifica_prenotazioni.php">
+							<i class="fas fa-road fa-2x mb-2 text-white"></i>
+							<h2 class="text-white mb-5">Visualizza prove su strada programmate</h2>
+						</a>
+					</div>
+					<?php
+						}
+					?>
+					<div class="col-md-12 col-lg-4 mx-auto text-center">
+						<a href="logout.php">
+							<i class="fas fa-sign-out-alt fa-2x mb-2 text-white"></i>
+							<h2 class="text-white mb-5">Esci</h2>
+						</a>
+					</div>
+				</div>
+				<?php
+					}
+					if (isset($_POST['btnLogin'])){
+						$id = $_POST['txtId'];
+						$password = $_POST['txtPassword'];
+
+						$query = "SELECT * FROM cliente WHERE email LIKE '" .$id. "' AND password LIKE '" .$password. "'";
+						$result = $mysql->query($query);
+
+						if ($result->num_rows == 1){
+							$_SESSION['loggedIn'] = true;
+							$_SESSION['login_user'] = $id;
+							$_SESSION['user_type'] = 'cliente';
+
+							echo '<script>window.location.replace("index.php")</script>';
+						} else {
+							$query = "SELECT * FROM agente WHERE email LIKE '" .$id. "' AND password LIKE '" .$password. "'";
+							$result = $mysql->query($query);
+
+							if ($result->num_rows == 1){
+								$_SESSION['loggedIn'] = true;
+								$_SESSION['login_user'] = $id;
+								$_SESSION['user_type'] = 'agente';
+
+								echo '<script>window.location.replace("index.php")</script>';
+							} else {
+								$_SESSION['loggedIn'] = false;
+								echo '<script>alert("Errore, mail o password errati")</script>';
+								echo '<script>window.location.replace("index.php#signup")</script>';
+							}
+						}
 					}
 				?>
 			</div>
@@ -290,7 +401,7 @@
 								<i class="fas fa-envelope text-primary mb-2"></i>
 								<h4 class="text-uppercase m-0">Email</h4>
 								<hr class="my-4" />
-								<div class="small text-black-50"><a href="mailto:armyromy25@gmail.com">armyromy25@gmail.com</a></div>
+								<div class="small text-black-50"><a href="mailto:armyromy25@gmail.com" target="_blank">armyromy25@gmail.com</a></div>
 							</div>
 						</div>
 					</div>
@@ -300,7 +411,7 @@
 								<i class="fab fa-github text-primary mb-2"></i>
 								<h4 class="text-uppercase m-0">GitHub</h4>
 								<hr class="my-4" />
-								<div class="small text-black-50"><a href="https://github.com/deatharmy25/elaborato_esame.git" target="_blank">Prpgetto GitHub</a></div>
+								<div class="small text-black-50"><a href="https://github.com/deatharmy25/elaborato_esame.git" target="_blank">Progetto GitHub</a></div>
 							</div>
 						</div>
 					</div>

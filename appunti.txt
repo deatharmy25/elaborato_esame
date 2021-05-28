@@ -1,0 +1,13 @@
+Fixare la stampa della data in modifica_prenotazioni.php
+Fixare la query per la modifica delle prenotazioni
+Fixare query modifica auto
+
+Rifare screenshots
+	- Sezione utente login
+	- Modifica prenotazioni prova su strada
+Fare screenshots
+	- Da telefono
+
+Cambiare conttatti
+	- Mettere la mia mail al posto del link a github
+	- Mettere la mail della scuola

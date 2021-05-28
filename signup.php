@@ -1,16 +1,26 @@
-<!DOCTYPE html>
+<?php
+	include('config.php');
+
+	/*
+	if (!isset($_SESSION)){
+		session_start();
+		$_SESSION["loggedIn"] = false;
+	}
+	*/
+	session_start();
+?>
 <html lang="it">
 	<head>
 		<meta charset="utf-8" />
 		<title>New Car - Sign up</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta name="description" content="" />
-		<meta name="author" content="" />
-		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-		<link href="css/styles.css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Elaborato d'esame di maturità 2021">
+        <meta name="author" content="Armando Romeo">
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet">
 	</head>
 	<body id="page-top">
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -53,11 +63,31 @@
                     <div>
                         <input type="text" name="txtNome" placeholder="Nome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
                         <input type="text" name="txtCognome" placeholder="Cognome..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <input type="email" name="txtMail" placeholder="Email..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
                     </div>
                     <div>
-                        <input type="password" name="txtPassword" placeholder="Password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
-                        <input type="password" name="txtPasswordRepeat" placeholder="Ripeti password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <input type="password" name="txtPassword" id="txtPassword" placeholder="Password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <a onclick="showPassword('txtPassword')">
+                            <!--<i class="fas fa-key fa-2x mb-2 text-secondary" title="Mostra/Nascondi password"></i>-->
+                            <i class="fas fa-low-vision text-secondary" title="Mostra/Nascondi password"></i>
+                        </a>
+                        <br>
+                        <input type="password" name="txtPasswordRepeat" id="txtPasswordRepeat" placeholder="Ripeti password..." class="flex-fill mr-0 mr-sm-2 mb-3 mb-sm-3" required/>
+                        <a onclick="showPassword('txtPasswordRepeat')">
+                            <!--<i class="fas fa-key fa-2x mb-2 text-secondary" title="Mostra/Nascondi password"></i>-->
+                            <i class="fas fa-low-vision text-secondary" title="Mostra/Nascondi password"></i>
+                        </a>
                     </div>
+                    <script type="text/javascript">
+                        function showPassword(id) {
+                            var x = document.getElementById(id);
+                            if (x.type === "password") {
+                                x.type = "text";
+                            } else {
+                                x.type = "password";
+                            }
+                        }
+                    </script>
                 </div>
                 <fieldset>
                     <div class="personal-details">
@@ -93,6 +123,7 @@
 
                     $nome = $_POST['txtNome'];
                     $cognome = $_POST['txtCognome'];
+                    $email = $_POST['txtMail'];
                     $password = $_POST['txtPassword'];
                     $stato = $_POST['txtStato'];
                     $citta = $_POST['txtCitta'];
@@ -117,29 +148,22 @@
                     else
                         $newsLetter = 0;
 
-                    $mysql = new mysqli('localhost', 'root', '', 'esame');
-                    if (!$mysql){  
-                        print_error("Database error");
-                        http_response_code(501);
-                        return;
-                    }
-
-                    $query = "INSERT INTO cliente (nome, cognome, codiceFiscale, indirizzoResidenza, componentiFamiglia, newsLetter, password)
-                    VALUES ('$nome', '$cognome', '$codiceFiscale', '$indirizzoResidenza', '$componentiFamiglia', $newsLetter, '$password')";
+                    $query = "INSERT INTO cliente (nome, cognome, email, codiceFiscale, indirizzoResidenza, componentiFamiglia, newsLetter, password)
+                    VALUES ('$nome', '$cognome', '$email','$codiceFiscale', '$indirizzoResidenza', '$componentiFamiglia', $newsLetter, '$password')";
                     $result = $mysql->query($query);
 
                     if ($result){
                         echo '<script>alert("Registrazione completata\nUsa ' .getIdByCodiceFiscale($codiceFiscale). ' come ID per accedere ai nostri servizi")</script>';
                         echo '<script>window.location.replace("index.php#signup")</script>';
                     } else {
-                        //echo $query;
                         echo '<script>alert("Errore utente già registrato")</script>';
                         http_response_code(502);
                     }
                 }
 
                 function getIdByCodiceFiscale($codiceFiscale){
-                    $mysql = new mysqli('localhost', 'root', '', 'esame');
+					include('config.php');
+
                     $query = "SELECT idCliente FROM cliente WHERE codiceFiscale LIKE '$codiceFiscale'";
                     $result = $mysql->query($query);
 
