@@ -182,8 +182,7 @@
                         	$response = 'Si è verificato un errore durante la modifica del veicolo, riprovare più tardi\n' .$query;
                             echo '<script>alert("' .$response. '")</script>';
                         }
-
-                        header("Location: index.php#showroom");
+                        echo '<script>window.location.replace("index.php#showroom")</script>';
                     }
                 ?>
             </div>

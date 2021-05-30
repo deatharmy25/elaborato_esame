@@ -2,12 +2,6 @@
 	include('config.php');
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-		if (!isset($_GET['veicolo']) && !isset($_GET['txtCerca'])){
-			print_error("Syntax error Get 1");
-			http_response_code(401);
-			return;
-		}
-		
 		if (isset($_GET['veicolo']))
 			$veicolo = $_GET["veicolo"];
 		elseif (isset($_GET['txtCerca']))

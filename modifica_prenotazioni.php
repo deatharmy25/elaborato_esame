@@ -145,7 +145,7 @@
 
                         $query = 'DELETE FROM operazione WHERE idOperazione = ' .$idOperazione;
                         $result = $mysql->query($query);
-                        if ($$result) {
+                        if ($result) {
                             $response = 'Si è verificato un errore durante la modifica del veicolo, riprovare più tardi\n' .$query;
                             echo '<script>alert("' .$response. '")</script>';
                             return;
@@ -159,7 +159,7 @@
                             $response = 'Si è verificato un errore durante la modifica del veicolo, riprovare più tardi\n' .$query;
                             echo '<script>alert("' .$response. '")</script>';
                         }
-                        header('location: modifica_prenotazioni.php');
+                        echo '<script>window.location.replace("modifica_prenotazioni.php")</script>';
                     } elseif (isset($_POST['btnEdit'])){
                         $idOperazione = $_POST['btnEdit'];
                         $data = $_POST['txtData'];
@@ -173,11 +173,11 @@
                         	$response = 'Si è verificato un errore durante la modifica del veicolo, riprovare più tardi\n' .$query;
                             echo '<script>alert("' .$response. '")</script>';
                         }
-                        header('location: modifica_prenotazioni.php');
+                        echo '<script>window.location.replace("modifica_prenotazioni.php")</script>';
                     }
 
                     function getOperazione($id){
-							include('config.php');
+						include('config.php');
 							
                         $query = 'SELECT * FROM operazione WHERE idOperazione = ' .$id. ' ORDER BY data';
                         $result = $mysql->query($query);
@@ -190,8 +190,7 @@
                     }
 
                     function getCliente($id){
-							include('config.php');
-							
+						include('config.php');
                         $query = 'SELECT * FROM cliente WHERE idCliente = ' .$id;
                         $result = $mysql->query($query);
 

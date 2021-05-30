@@ -104,7 +104,8 @@
 
 				<?php
 					if (isset($_POST['btnSubmit'])){
-						$idCliente = $login_session_id;
+
+						$idCliente = $_SESSION['login_user_id'];
 
 						do{
 							$idAgente = getAgenteRandom();
@@ -139,13 +140,13 @@
 							echo '<script>alert("Prenotazione effettuata\nL\'agente di riferimento sarà ' .getEmailAgente($idAgente). '\nTi verrà inviata una mail con ulteriori informazioni")</script>';
 						}
 
-						header("Location: index.php#showroom");
+						echo '<script>window.location.replace("index.php#showroom")</script>';
 					}
 
 					function getEmailAgente($id){
 						include('config.php');
 
-						$query = 'SELECT * FROM agente WHERE idAgente = $id';
+						$query = 'SELECT * FROM agente WHERE idAgente = '. $id;
 						$result = $mysql->query($query);
 
 						if ($result && $row = $result->fetch_assoc()){

@@ -8,6 +8,25 @@
 		$_SESSION["loggedIn"] = false;
 	}
 	*/
+
+	// Controllo del browser
+	if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE){
+		print_browser_alert('Internet Explorer');
+	} elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== FALSE){ //For Supporting IE 11
+	    print_browser_alert('Internet Explorer');
+	} elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== FALSE){
+		print_browser_alert('Firefox');
+	} elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE){}
+	elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== FALSE){}
+	elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== FALSE){}
+	elseif(strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') !== FALSE){}
+	else{
+	   	print_browser_alert('un Browser Sconosiuto');
+	}
+
+	function print_browser_alert($browser){
+		echo '<script>alert("Attenzione, sembra che tu stia usando ' .$browser. '\nÈ possibile che alcune funzioni non siano disponibili o che non funzionino correttamente.\nUtilizzare un browser come Google Chrome oppure derivate di Chromium (Esempio: Microsoft Edge o Brave)")</script>';
+	}
 ?>
 
 <html lang="it">
@@ -355,6 +374,9 @@
 							$_SESSION['login_user'] = $id;
 							$_SESSION['user_type'] = 'cliente';
 
+							$row = $result->fetch_assoc();
+							$_SESSION['login_user_id'] = $row['idCliente'];
+
 							echo '<script>window.location.replace("index.php")</script>';
 						} else {
 							$query = "SELECT * FROM agente WHERE email LIKE '" .$id. "' AND password LIKE '" .$password. "'";
@@ -364,6 +386,9 @@
 								$_SESSION['loggedIn'] = true;
 								$_SESSION['login_user'] = $id;
 								$_SESSION['user_type'] = 'agente';
+
+								$row = $result->fetch_assoc();
+								$_SESSION['login_user_id'] = $row['idAgente'];
 
 								echo '<script>window.location.replace("index.php")</script>';
 							} else {
